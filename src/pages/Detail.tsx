@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import instance from '../services/api'
 import { Product } from '../interfaces/Product'
+import instance from '../services/api'
 
 export const Detail = () => {
   const { id } = useParams()
