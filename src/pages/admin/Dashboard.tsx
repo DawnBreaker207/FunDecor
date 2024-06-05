@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { Product } from "../../interfaces/Product"
+import Button from "../../components/Button/Button"
 
 type Props = {
   product: Product[]
@@ -16,9 +17,10 @@ const Dashboard = ({ product, onDelete }: Props) => {
   }
   return (
     <section className="md:max-w-6xl mx-auto">
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between items-center ">
         <Link to={"/admin/product-form"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add New</Link>
-        <button onClick={LogOut} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Sign Out</button>
+        {/* <button onClick={LogOut} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Sign Out</button> */}
+        <Button onClick={LogOut}>Log Out</Button>
 
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -44,7 +46,7 @@ const Dashboard = ({ product, onDelete }: Props) => {
                 <div className="flex flex-row gap-2">
 
                   <Link to={`/admin/product-form/${index.id}`} className="btn btn-warning">Edit</Link>
-                  <button onClick={() => onDelete(Number(index.id))} className="btn btn-danger">Delete</button>
+                  <Button onClick={() => onDelete(Number(index.id))} >Delete</Button>
                 </div>
               </td>
             </tr>

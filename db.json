@@ -1795,12 +1795,6 @@
         "https://cdn.dummyjson.com/products/images/groceries/Kiwi/1.png"
       ],
       "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Kiwi/thumbnail.png"
-    },
-    {
-      "title": "4234234",
-      "price": 4242342,
-      "description": "42424242",
-      "id": 31
     }
   ],
   "users": [
