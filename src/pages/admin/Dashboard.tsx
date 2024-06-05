@@ -1,13 +1,26 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Product } from "../../interfaces/Product"
 
 type Props = {
   product: Product[]
+  onDelete: (id: number) => void
 }
-const Dashboard = ({ product }: Props) => {
+const Dashboard = ({ product, onDelete }: Props) => {
+  const navigate = useNavigate()
+  const LogOut = () => {
+    if (confirm('Are you sure want to logout ?')) {
+      localStorage.removeItem('token')
+      navigate('/')
+    }
+
+  }
   return (
     <section className="md:max-w-6xl mx-auto">
-      <Link to={"/admin/add"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add New</Link>
+      <div className="flex flex-row justify-between">
+        <Link to={"/admin/product-form"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add New</Link>
+        <button onClick={LogOut} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Sign Out</button>
+
+      </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
           <tr>
@@ -30,7 +43,8 @@ const Dashboard = ({ product }: Props) => {
               <td>
                 <div className="flex flex-row gap-2">
 
-                  <button className="btn btn-warning">Edit</button><button className="btn btn-danger">Delete</button>
+                  <Link to={`/admin/product-form/${index.id}`} className="btn btn-warning">Edit</Link>
+                  <button onClick={() => onDelete(Number(index.id))} className="btn btn-danger">Delete</button>
                 </div>
               </td>
             </tr>

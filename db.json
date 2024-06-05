@@ -1797,34 +1797,18 @@
       "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Kiwi/thumbnail.png"
     },
     {
-      "title": "432432",
-      "price": "423432",
-      "description": "423423",
+      "title": "4234234",
+      "price": 4242342,
+      "description": "42424242",
       "id": 31
-    },
+    }
+  ],
+  "users": [
     {
-      "title": "432432",
-      "price": "423423",
-      "description": "423423",
-      "id": 32
-    },
-    {
-      "title": "44235",
-      "price": "532523",
-      "description": "42342342",
-      "id": 33
-    },
-    {
-      "title": "42342",
-      "price": 42342432,
-      "description": "42342342",
-      "id": 34
-    },
-    {
-      "title": "432",
-      "price": 23,
-      "description": "43434434",
-      "id": 35
+      "email": "admin@gmail.com",
+      "password": "$2a$10$Hb2sbwzeMiXWi8OgkW4lgOxvTyUuzcx8y0Sf0DVdqZFS53ShVnxti",
+      "name": "Tung Anh",
+      "id": 1
     }
   ]
 }
