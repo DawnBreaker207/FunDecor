@@ -19,7 +19,6 @@ const Dashboard = ({ product, onDelete }: Props) => {
     <section className="md:max-w-6xl mx-auto">
       <div className="flex flex-row justify-between items-center ">
         <Link to={"/admin/product-form"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add New</Link>
-        {/* <button onClick={LogOut} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Sign Out</button> */}
         <Button onClick={LogOut}>Log Out</Button>
 
       </div>

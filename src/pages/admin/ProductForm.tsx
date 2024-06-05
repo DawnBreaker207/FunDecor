@@ -26,15 +26,10 @@ const ProductForm = ({ onProduct }: Props) => {
       })()
     }, [])
   }
-
   if (id) {
     HandleFetch()
   }
-
   const { register, formState: { errors }, handleSubmit } = useForm<Product>({ resolver: zodResolver(productSchema) })
-
-
-
   const onSubmit = (data: Product) => {
     onProduct({ ...data, id })
 
