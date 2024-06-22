@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { useParams } from "react-router-dom"
 import { z } from "zod"
 import { Product } from "../../interfaces/Product"
-import instance from "../../services/api"
+import instance from "../../services/config"
 
 type Props = {
   onProduct: (product: Product) => void

@@ -1803,6 +1803,12 @@
       "password": "$2a$10$Hb2sbwzeMiXWi8OgkW4lgOxvTyUuzcx8y0Sf0DVdqZFS53ShVnxti",
       "name": "Tung Anh",
       "id": 1
+    },
+    {
+      "email": "admin@lmao.com",
+      "password": "$2a$10$7Fdxg27vSn9iN/BC3TjXZ.s2dnQwlPmdCuxnTnJE/VcFv/fiBDimG",
+      "confirmPass": "123456",
+      "id": 2
     }
   ]
 }

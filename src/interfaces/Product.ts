@@ -2,6 +2,7 @@ export interface Product {
   id?: number | string;
   title: string;
   description: string;
+  thumbnail?: string;
   category?: string;
   price: number;
   discountPercentage?: number;
@@ -18,7 +19,5 @@ export interface Product {
 
   returnPolicy?: string;
   minimumOrderQuantity?: number;
-
   images?: string[];
-  thumbnail: string;
 }

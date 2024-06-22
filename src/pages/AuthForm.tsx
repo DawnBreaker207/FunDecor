@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { Link, useNavigate } from "react-router-dom"
 import { User } from "../interfaces/User"
 import { signinSchema, signupSchema } from "../schemaValid/authSchema."
-import instance from "../services/api"
-import { Link, useNavigate } from "react-router-dom"
+import { Sign_In, Sign_Up } from "../services/authentication.config"
 
 
 
@@ -18,14 +18,14 @@ const AuthForm = ({ isRegister }: Props) => {
     (async () => {
       try {
         if (isRegister) {
-          await instance.post('/signup', res)
+          await Sign_Up(res)
           if (confirm(`Sign Up success, to to log in ?`)) {
             navigate('/login')
           }
 
         } else {
-          const { data } = await instance.post('/login', res)
-          localStorage.setItem('token', JSON.stringify(data))
+          const data = await Sign_In(res)
+          localStorage.setItem('token', JSON.stringify(data.accessToken))
           if (confirm(`Log in success, to to dashboard ?`)) {
             navigate('/admin')
           }

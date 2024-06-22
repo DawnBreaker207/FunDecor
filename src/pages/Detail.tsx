@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Product } from '../interfaces/Product'
-import instance from '../services/api'
+import { GetProductOne } from '../services/product.config'
+
 
 export const Detail = () => {
   const { id } = useParams()
   const [product, setProducts] = useState<Product | null>(null)
   useEffect(() => {
     (async () => {
-      const { data } = await instance.get(`/products/${id}`)
-
+      const data = await GetProductOne(id)
       setProducts(data)
     })()
   }, [])

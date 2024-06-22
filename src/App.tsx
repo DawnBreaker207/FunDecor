@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
+import CheckPermission from './components/CheckPermission'
 import { Product } from './interfaces/Product'
+import LayoutAdmin from './layouts/LayoutAdmin'
+import LayoutClient from './layouts/LayoutClient'
 import About from './pages/About'
 import Dashboard from './pages/admin/Dashboard'
+import ProductForm from './pages/admin/ProductForm'
+import AuthForm from './pages/AuthForm'
 import { Detail } from './pages/Detail'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
-import instance from './services/api'
+// import Test from './pages/Test'
+import Search from './components/Search'
+import { CreateProduct, DeleteProduct, GetProductAll, UpdateProduct } from './services/product.config'
+import Category from './components/Category'
+import Price from './components/Price'
 
-
-import LayoutAdmin from './layouts/LayoutAdmin'
-import LayoutClient from './layouts/LayoutClient'
-import ProductForm from './pages/admin/ProductForm'
-import AuthForm from './pages/AuthForm'
-import { getProduct } from './services/product'
-import CheckPermission from './components/CheckPermission'
 
 function App() {
   const [products, setProduct] = useState<Product[]>([])
   const navigate = useNavigate()
   useEffect(() => {
     (async () => {
-      const { data } = await instance.get('/products')
+      const data = await GetProductAll()
       setProduct(data)
     })()
   }, [])
@@ -30,14 +32,14 @@ function App() {
     (async () => {
       try {
         if (res.id) {
-          await instance.patch(`/products/${res.id}`, res)
-          const newProducts = await getProduct()
+          await UpdateProduct(res.id, res)
+          const newProducts = await GetProductAll()
           setProduct(newProducts)
           if (confirm('Add success, go to dashboard')) {
             navigate("/admin")
           }
         } else {
-          const { data } = await instance.post('/products', res)
+          const data = await CreateProduct(res)
           setProduct([...products, data])
           if (confirm('Add success, go to dashboard')) {
             navigate("/admin")
@@ -52,11 +54,13 @@ function App() {
   const handleDelete = (id: string | number) => {
     (async () => {
       if (confirm(`Are you sure want to delete ?`)) {
-        await instance.delete(`/products/${id}`)
+        await DeleteProduct(id)
         setProduct(products.filter(item => item.id !== id && item))
       }
     })()
   }
+
+
   return (
     <>
 
@@ -68,6 +72,10 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/login' element={<AuthForm />} />
           <Route path='/register' element={<AuthForm isRegister />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/category' element={<Category />} />
+          <Route path='/price' element={<Price />} />
+          {/* <Route path='/test' element={<Test />} /> */}
         </Route>
         <Route element={<CheckPermission />}>
           <Route path='/admin' element={<LayoutAdmin />}  >
