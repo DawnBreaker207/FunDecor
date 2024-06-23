@@ -1,20 +1,25 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { z } from "zod"
+import { ProductContext } from "../../contexts/Product.Context"
 import { Product } from "../../interfaces/Product"
+import { ProductAction } from "../../reducers/productReducer"
 import instance from "../../services/config"
+import { CreateProduct, UpdateProduct } from "../../services/product.config"
 
-type Props = {
-  onProduct: (product: Product) => void
-}
+// const { VITE_CLOUDNAME , VITE_UPLOAD_PRESET } = import.meta.env
+
+
 const productSchema = z.object({
   title: z.string().min(1, { message: 'Required' }),
   price: z.number().min(1, { message: 'Required' }),
   description: z.string().min(5).max(100).optional(),
 })
-const ProductForm = ({ onProduct }: Props) => {
+const ProductForm = () => {
+  const context = useContext(ProductContext)
+  const navigate = useNavigate()
   const { id } = useParams()
   const [products, setProduct] = useState<Product | null>(null)
 
@@ -30,15 +35,40 @@ const ProductForm = ({ onProduct }: Props) => {
     HandleFetch()
   }
   const { register, formState: { errors }, handleSubmit } = useForm<Product>({ resolver: zodResolver(productSchema) })
-  const onSubmit = (data: Product) => {
-    onProduct({ ...data, id })
+
+  const handleSubmitForm = (res: Product) => {
+    (async () => {
+      try {
+        if (res.id) {
+          await UpdateProduct(res.id, res)
+          context?.dispatch({
+            type: ProductAction.UPDATE_PRODUCTS, payload: { id, ...res }
+          })
+          if (confirm('Add success, go to dashboard')) {
+            navigate("/admin")
+          }
+        } else {
+          const data = await CreateProduct(res)
+          console.log(data);
+          context?.dispatch({
+            type: ProductAction.ADD_PRODUCTS, payload: data
+          })
+          if (confirm('Add success, go to dashboard')) {
+            navigate("/admin")
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })()
 
   }
+
   return (
     <section className="md:max-w-6xl mx-auto">
       <div className="my-5">
         <h1 className="my-5 text-3xl font-bold text-center">{id ? 'Product Edit' : "Product Add"}</h1>
-        <form action="" onSubmit={handleSubmit(onSubmit)} className="md:max-w-2xl md:mx-auto">
+        <form action="" onSubmit={handleSubmit(handleSubmitForm)} className="md:max-w-2xl md:mx-auto">
           <div className="mb-3">
             <label className="form-label" htmlFor="Title">Title</label>
             <input className="form-control" type="text" placeholder="Title" {...register("title", { required: true, minLength: 5 })} defaultValue={products?.title} />

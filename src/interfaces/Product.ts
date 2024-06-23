@@ -21,3 +21,6 @@ export interface Product {
   minimumOrderQuantity?: number;
   images?: string[];
 }
+
+
+

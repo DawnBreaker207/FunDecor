@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
+import { AuthContext } from "../contexts/AuthContext"
 import { User } from "../interfaces/User"
 import { signinSchema, signupSchema } from "../schemaValid/authSchema."
-import { Sign_In, Sign_Up } from "../services/authentication.config"
 
 
 
@@ -13,25 +14,27 @@ type Props = {
 
 const AuthForm = ({ isRegister }: Props) => {
   const navigate = useNavigate()
+  const auth = useContext(AuthContext)
   const { register, formState: { errors }, handleSubmit } = useForm<User>({ resolver: zodResolver(isRegister ? signupSchema : signinSchema) })
   const onSubmit = (res: User) => {
     (async () => {
       try {
         if (isRegister) {
-          await Sign_Up(res)
+          await auth?.register(res)
           if (confirm(`Sign Up success, to to log in ?`)) {
             navigate('/login')
           }
 
         } else {
-          const data = await Sign_In(res)
-          localStorage.setItem('token', JSON.stringify(data.accessToken))
+          await auth?.login(res)
+          // const data = await Sign_In(res)
           if (confirm(`Log in success, to to dashboard ?`)) {
             navigate('/admin')
           }
         }
 
       } catch (error) {
+        alert(error || 'Failed')
         console.log(error);
 
       }

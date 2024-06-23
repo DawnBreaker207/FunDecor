@@ -1,20 +1,18 @@
+import { useContext } from 'react';
 import ProductItems from '../components/ProductItems/ProductItems';
-import { Product } from '../interfaces/Product';
+import { ProductContext } from '../contexts/Product.Context';
 
 
-type Props = {
-  product: Product[]
-}
-const Home = ({ product }: Props) => {
 
+const Home = () => {
+  const context = useContext(ProductContext)
 
   return (
     <section className='md:max-w-6xl mx-auto md: my-5'>
       <div className='grid grid-cols-3 gap-10'>
-        {product.map((index) => (
+        {context?.state.products.map((index) => (
           <ProductItems key={index.id} data={index} />
         ))}
-
       </div>
     </section>
   )

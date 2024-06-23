@@ -1,13 +1,20 @@
+import { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { Product } from "../../interfaces/Product"
 import Button from "../../components/Button/Button"
+import { ProductContext } from "../../contexts/Product.Context"
+import instance from "../../services/config"
+import { ProductAction } from "../../reducers/productReducer"
 
-type Props = {
-  product: Product[]
-  onDelete: (id: number) => void
-}
-const Dashboard = ({ product, onDelete }: Props) => {
+
+const Dashboard = () => {
+  const data = useContext(ProductContext)
   const navigate = useNavigate()
+  const handleDelete = async (id: string | number) => {
+    await instance.delete(`/products/${id}`
+    )
+    data?.dispatch({ type: ProductAction.DELETE_PRODUCTS, payload: id })
+  }
+
   const LogOut = () => {
     if (confirm('Are you sure want to logout ?')) {
       localStorage.removeItem('token')
@@ -34,7 +41,7 @@ const Dashboard = ({ product, onDelete }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {product.map((index) => (
+          {data?.state.products.map((index) => (
             <tr key={index.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td className="px-6 py-4">{index.id}</td>
               <td className="px-6 py-4">{index.title}</td>
@@ -45,7 +52,7 @@ const Dashboard = ({ product, onDelete }: Props) => {
                 <div className="flex flex-row gap-2">
 
                   <Link to={`/admin/product-form/${index.id}`} className="btn btn-warning">Edit</Link>
-                  <Button onClick={() => onDelete(Number(index.id))} >Delete</Button>
+                  <Button onClick={() => handleDelete(Number(index.id))} >Delete</Button>
                 </div>
               </td>
             </tr>

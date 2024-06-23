@@ -1802,7 +1802,8 @@
       "email": "admin@gmail.com",
       "password": "$2a$10$Hb2sbwzeMiXWi8OgkW4lgOxvTyUuzcx8y0Sf0DVdqZFS53ShVnxti",
       "name": "Tung Anh",
-      "id": 1
+      "id": 1,
+      "role": "admin"
     },
     {
       "email": "admin@lmao.com",

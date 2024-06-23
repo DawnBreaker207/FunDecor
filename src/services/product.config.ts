@@ -1,6 +1,5 @@
 import { Product } from '../interfaces/Product';
 import instance from './config';
-// import { UploadImages } from './upload.services';
 
 const GetProductAll = async () => {
   try {
@@ -46,23 +45,10 @@ const DeleteProduct = async (id: string | number) => {
   }
 };
 
-// const Upload_Images = async (file: any) => {
-// try {
-//   console.log(file);
-//   const formData = new FormData();
-//   formData.append('file', file[0]);
-//   formData.append('upload_preset', 'ujvh22vi');
-//   const images = await UploadImages(formData);
-//   console.log(images);
-// } catch (error) {
-//   console.log(error);
-// }
-// };
 export {
   GetProductAll,
   GetProductOne,
   CreateProduct,
   UpdateProduct,
   DeleteProduct,
-  // Upload_Images,
 };
