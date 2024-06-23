@@ -39,12 +39,12 @@ const ProductForm = () => {
   const handleSubmitForm = (res: Product) => {
     (async () => {
       try {
-        if (res.id) {
-          await UpdateProduct(res.id, res)
+        if (id) {
+          await UpdateProduct(id, res)
           context?.dispatch({
             type: ProductAction.UPDATE_PRODUCTS, payload: { id, ...res }
           })
-          if (confirm('Add success, go to dashboard')) {
+          if (confirm('Edit success, go to dashboard')) {
             navigate("/admin")
           }
         } else {
