@@ -2,65 +2,78 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate, useParams } from "react-router-dom"
-import { z } from "zod"
 import { ProductContext } from "../../contexts/Product.Context"
-import { Product } from "../../interfaces/Product"
-import { ProductAction } from "../../reducers/productReducer"
+import { Product, ProductAction } from "../../interfaces/Product"
+
+import productSchema from "../../schemaValid/productSchema"
 import instance from "../../services/config"
 import { CreateProduct, UpdateProduct } from "../../services/product.config"
+import { UploadImage } from "../../services/upload.services"
 
-// const { VITE_CLOUDNAME , VITE_UPLOAD_PRESET } = import.meta.env
 
-
-const productSchema = z.object({
-  title: z.string().min(1, { message: 'Required' }),
-  price: z.number().min(1, { message: 'Required' }),
-  description: z.string().min(5).max(100).optional(),
-})
 const ProductForm = () => {
+  const [thumbnailUrl, setThumbnailUrl] = useState(null)
+  // Archive user option
+  const [thumbnailOption, setThumbnailOption] = useState("keep")
   const context = useContext(ProductContext)
   const navigate = useNavigate()
   const { id } = useParams()
-  const [products, setProduct] = useState<Product | null>(null)
+  const { register, formState: { errors }, handleSubmit, reset } = useForm<Product>({ resolver: zodResolver(productSchema) })
 
-  const HandleFetch = () => {
-    useEffect(() => {
+
+  useEffect(() => {
+    if (id) {
       (async () => {
         const { data } = await instance.get(`/products/${id}`)
-        setProduct(data)
+        console.log(data);
+        reset(data)
+        setThumbnailUrl(data?.thumbnail)
       })()
-    }, [])
-  }
-  if (id) {
-    HandleFetch()
-  }
-  const { register, formState: { errors }, handleSubmit } = useForm<Product>({ resolver: zodResolver(productSchema) })
+    }
+  }, [id, reset])
+  const handleSubmitForm = async (res: Product) => {
+    try {
+      let updateProduct = { ...res };
+      // Check select of admin and resolve
+      switch (thumbnailOption) {
+        case "upload":
 
-  const handleSubmitForm = (res: Product) => {
-    (async () => {
-      try {
-        if (id) {
-          await UpdateProduct(id, res)
-          context?.dispatch({
-            type: ProductAction.UPDATE_PRODUCTS, payload: { id, ...res }
-          })
-          if (confirm('Edit success, go to dashboard')) {
-            navigate("/admin")
+          // Resolve upload image if admin choose upload from local
+          if (res.thumbnail && res.thumbnail[0]) {
+            const thumbnailUrl = await UploadImage(res.thumbnail[0])
+            updateProduct = { ...updateProduct, thumbnail: thumbnailUrl }
           }
-        } else {
-          const data = await CreateProduct(res)
-          console.log(data);
-          context?.dispatch({
-            type: ProductAction.ADD_PRODUCTS, payload: data
-          })
-          if (confirm('Add success, go to dashboard')) {
-            navigate("/admin")
-          }
-        }
-      } catch (error) {
-        console.log(error);
+          break;
+
+        default:
+          // Keep image if not thing change
+          // Default when use chose "link image online"
+          // Switch case for more use case in the future
+          break;
       }
-    })()
+
+      if (id) {
+        await UpdateProduct(id, updateProduct)
+        context?.dispatch({
+          type: ProductAction.UPDATE_PRODUCTS, payload: { id, ...updateProduct }
+        })
+        if (confirm('Edit success, go to dashboard')) {
+          navigate("/admin")
+        }
+      } else {
+        const data = await CreateProduct(updateProduct)
+        console.log(data);
+        context?.dispatch({
+          type: ProductAction.ADD_PRODUCTS, payload: data
+        })
+        if (confirm('Add success, go to dashboard')) {
+          navigate("/admin")
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
 
   }
 
@@ -71,18 +84,41 @@ const ProductForm = () => {
         <form action="" onSubmit={handleSubmit(handleSubmitForm)} className="md:max-w-2xl md:mx-auto">
           <div className="mb-3">
             <label className="form-label" htmlFor="Title">Title</label>
-            <input className="form-control" type="text" placeholder="Title" {...register("title", { required: true, minLength: 5 })} defaultValue={products?.title} />
+            <input className="form-control" type="text" placeholder="Title" {...register("title", { required: true, minLength: 5 })} />
             <div className="font-bold text-red-600">{errors.title && <p>{errors.title?.message}</p>}</div>
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="Price">Price</label>
-            <input className="form-control" type="text" placeholder="Price" {...register("price", { required: true, min: 5, valueAsNumber: true })} defaultValue={products?.price} />
+            <input className="form-control" type="text" placeholder="Price" {...register("price", { required: true, min: 5, valueAsNumber: true })} />
             <div className="font-bold text-red-600">{errors.price && <p>{errors.price?.message}</p>}</div>
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="Description">Description</label>
-            <input className="form-control" type="text" placeholder="Description" {...register("description", { required: true, minLength: 5 })} defaultValue={products?.description} />
+            <input className="form-control" type="text" placeholder="Description" {...register("description", { required: true, minLength: 5 })} />
             <div className="font-bold text-red-600">{errors.description && <p>{errors.description?.message}</p>}</div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="thumbnailOption">Choose Thumbnail Option</label>
+            <select className="form-control" value={thumbnailOption} onChange={(e) => setThumbnailOption(e.target.value)}>
+              <option value="keep">Keep Current Thumbnail</option>
+              <option value="link">Keep Current from Link </option>
+              <option value="upload">Upload Thumbnail from Local</option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="thumbnail">Thumbnail</label>
+            {thumbnailOption === "link" && (
+
+              <input className="form-control" type="text" placeholder="Link" {...register("thumbnail")} />
+            )}
+            {thumbnailOption === "upload" && (
+              <input className="form-control" type="file" placeholder="Link" {...register("thumbnail", { required: true })} />
+            )}
+            <div className="font-bold text-red-600">{errors.thumbnail && <p>{errors.thumbnail?.message}</p>}</div>
+
+            {thumbnailUrl && (
+              <img src={thumbnailUrl} alt="Product Thumbnail" style={{ maxWidth: "200px", marginTop: "10px" }} />
+            )}
           </div>
           <button className="btn btn-primary" type="submit">Submit</button>
         </form>

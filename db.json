@@ -1795,6 +1795,20 @@
         "https://cdn.dummyjson.com/products/images/groceries/Kiwi/1.png"
       ],
       "thumbnail": "https://cdn.dummyjson.com/products/images/groceries/Kiwi/thumbnail.png"
+    },
+    {
+      "title": "lmao dèaaukt",
+      "price": 102939,
+      "description": "how to use that ",
+      "thumbnail": "https://res.cloudinary.com/devr9hihw/image/upload/v1719158711/react_learn/goxjs7i8zmol0uepeuzm.jpg",
+      "id": 33
+    },
+    {
+      "title": "hellow",
+      "price": 42432,
+      "description": "how to do that",
+      "thumbnail": "https://res.cloudinary.com/devr9hihw/image/upload/v1719159065/react_learn/ihpodnrb2rsommxo327d.jpg",
+      "id": 34
     }
   ],
   "users": [

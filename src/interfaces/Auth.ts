@@ -4,6 +4,7 @@ export interface AuthType {
   username?: string;
   email: string | undefined;
   password: string | undefined;
+  confirmPass?: string;
   role?: string;
 }
 

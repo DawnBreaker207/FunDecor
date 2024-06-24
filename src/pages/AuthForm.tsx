@@ -3,8 +3,8 @@ import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../contexts/AuthContext"
-import { User } from "../interfaces/User"
-import { signinSchema, signupSchema } from "../schemaValid/authSchema."
+import { SignInSchema, SignUpSchema } from "../schemaValid/authSchema."
+import { AuthType } from "../interfaces/Auth"
 
 
 
@@ -15,8 +15,8 @@ type Props = {
 const AuthForm = ({ isRegister }: Props) => {
   const navigate = useNavigate()
   const auth = useContext(AuthContext)
-  const { register, formState: { errors }, handleSubmit } = useForm<User>({ resolver: zodResolver(isRegister ? signupSchema : signinSchema) })
-  const onSubmit = (res: User) => {
+  const { register, formState: { errors }, handleSubmit } = useForm<AuthType>({ resolver: zodResolver(isRegister ? SignUpSchema : SignInSchema) })
+  const onSubmit = (res: AuthType) => {
     (async () => {
       try {
         if (isRegister) {

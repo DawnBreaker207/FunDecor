@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom"
 import Button from "../../components/Button/Button"
 import { ProductContext } from "../../contexts/Product.Context"
 import instance from "../../services/config"
-import { ProductAction } from "../../reducers/productReducer"
+import { Product, ProductAction } from "../../interfaces/Product"
+
 
 
 const Dashboard = () => {
@@ -41,7 +42,7 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.state.products.map((index) => (
+          {data?.state.products.map((index: Product) => (
             <tr key={index.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td className="px-6 py-4">{index.id}</td>
               <td className="px-6 py-4">{index.title}</td>

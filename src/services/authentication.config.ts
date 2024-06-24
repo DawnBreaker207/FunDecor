@@ -1,7 +1,7 @@
-import { User } from '../interfaces/User';
+import { AuthType } from '../interfaces/Auth';
 import instance from './config';
 
-const Sign_Up = async (dataInput: User) => {
+const Sign_Up = async (dataInput: AuthType) => {
   try {
     const { data } = await instance.post('/register', dataInput);
     return data;
@@ -9,7 +9,7 @@ const Sign_Up = async (dataInput: User) => {
     console.log(error);
   }
 };
-const Sign_In = async (dataInput: User) => {
+const Sign_In = async (dataInput: AuthType) => {
   try {
     const { data } = await instance.post('/login', dataInput);
     return data;

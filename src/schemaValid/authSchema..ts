@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const signupSchema = z
+const SignUpSchema = z
   .object({
     email: z.string().email().min(1, { message: 'Required' }),
     password: z.string().min(6, { message: 'Required' }).max(100),
@@ -10,8 +10,8 @@ const signupSchema = z
     message: 'Password not match',
     path: ['confirmPass'],
   });
-const signinSchema = z.object({
+const SignInSchema = z.object({
   email: z.string().email().min(1, { message: 'Required' }),
   password: z.string().min(5, { message: 'Required' }).max(100),
 });
-export { signinSchema, signupSchema };
+export { SignInSchema, SignUpSchema };
