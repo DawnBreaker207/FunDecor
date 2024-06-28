@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 
 export interface Product {
-  id?: number | string;
+  id?: number | string ;
   title: string;
   description: string;
   thumbnail?: string;

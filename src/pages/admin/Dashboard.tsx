@@ -15,13 +15,11 @@ const Dashboard = () => {
     )
     data?.dispatch({ type: ProductAction.DELETE_PRODUCTS, payload: id })
   }
-
   const LogOut = () => {
     if (confirm('Are you sure want to logout ?')) {
       localStorage.removeItem('token')
       navigate('/')
     }
-
   }
   return (
     <section className="md:max-w-6xl mx-auto">

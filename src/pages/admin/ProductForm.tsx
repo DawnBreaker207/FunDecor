@@ -20,7 +20,6 @@ const ProductForm = () => {
   const { id } = useParams()
   const { register, formState: { errors }, handleSubmit, reset } = useForm<Product>({ resolver: zodResolver(productSchema) })
 
-
   useEffect(() => {
     if (id) {
       (async () => {
@@ -44,7 +43,6 @@ const ProductForm = () => {
             updateProduct = { ...updateProduct, thumbnail: thumbnailUrl }
           }
           break;
-
         default:
           // Keep image if not thing change
           // Default when use chose "link image online"
