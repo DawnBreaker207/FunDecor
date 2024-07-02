@@ -1,6 +1,9 @@
-import { Product_Action, State } from '../interfaces/Product';
+import { Product_Action, StateProduct } from '../interfaces/Product';
 
-const productReducer = (state: State, action: Product_Action): State => {
+const productReducer = (
+  state: StateProduct,
+  action: Product_Action
+): StateProduct => {
   const { products } = state;
   const { type, payload } = action;
 

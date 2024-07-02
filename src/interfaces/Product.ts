@@ -1,30 +1,47 @@
 import { Dispatch } from 'react';
 
+// export interface Product {
+//   id?: number | string ;
+//   title: string;
+//   description: string;
+//   thumbnail?: string;
+//   category?: string;
+//   price: number;
+//   discountPercentage?: number;
+//   rating?: number;
+//   stock?: number;
+//   tags?: string[];
+//   brand?: string;
+//   sku?: string;
+//   weight?: number;
+
+//   warrantyInformation?: string;
+//   shippingInformation?: string;
+//   availabilityStatus?: string;
+
+//   returnPolicy?: string;
+//   minimumOrderQuantity?: number;
+//   images?: string[];
+// }
+
 export interface Product {
-  id?: number | string ;
+  // _id?: string | number;
+  id?: string | number;
   title: string;
-  description: string;
-  thumbnail?: string;
-  category?: string;
-  price: number;
-  discountPercentage?: number;
-  rating?: number;
-  stock?: number;
-  tags?: string[];
+  category: string | number;
+  slug?: string;
   brand?: string;
-  sku?: string;
-  weight?: number;
-
-  warrantyInformation?: string;
-  shippingInformation?: string;
-  availabilityStatus?: string;
-
-  returnPolicy?: string;
-  minimumOrderQuantity?: number;
-  images?: string[];
+  thumbnail: string;
+  stock?: number;
+  description: string;
+  material?: string;
+  size?: string[];
+  price: number;
+  variants?: string[];
+  hide?: boolean;
 }
 
-export interface State {
+export interface StateProduct {
   products: Product[];
   error: string | null;
 }
@@ -57,7 +74,7 @@ export type Product_Action =
   | DELETE_PRODUCTS;
 
 export interface ProductContextType {
-  state: State;
+  state: StateProduct;
   dispatch: Dispatch<Product_Action>;
 }
 export interface ProductProviderProps {

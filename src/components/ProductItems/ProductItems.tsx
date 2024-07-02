@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Product } from '../../interfaces/Product';
-import Button from '../Button/Button';
 import { UseCart } from '../../contexts/CartContext';
+import { Product } from '../../interfaces/Product';
 import { formatCurrency } from '../../utils/formatCurrency';
+import Button from '../Button/Button';
 type Props = {
   data: Product
 }
 const ProductItems: React.FC<Props> = ({ data }) => {
-  const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = UseCart()
+  const { getItemQuantity, increaseCartQuantity } = UseCart()
   const quantity = getItemQuantity(data.id as number)
   return (
     <div key={data.id} className='border rounded-lg'>
@@ -29,15 +29,13 @@ const ProductItems: React.FC<Props> = ({ data }) => {
 
           ) : (<>
             <Button> Buy Now</Button>
-            <Button onClick={() => decreaseCartQuantity(data.id as number)}>-</Button>
             <div>
               <span className='fs-3'>
                 {quantity}
               </span>
               in cart
             </div>
-            <Button onClick={() => increaseCartQuantity(data?.id as number)}>+</Button>
-            <Button onClick={() => removeFromCart(data.id as number)}>Remove</Button> </>)}
+          </>)}
         </div>
 
 

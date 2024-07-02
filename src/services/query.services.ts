@@ -10,7 +10,9 @@ const SearchProduct = async (kw: string) => {
 };
 const SortCategory = async (kw: string) => {
   try {
-    const { data } = await instance.get(`/products?category_like=${kw}`);
+    const { data } = await instance.get(`/products?category=${kw}`);
+    console.log(data);
+
     return data;
   } catch (error) {
     console.log(error);

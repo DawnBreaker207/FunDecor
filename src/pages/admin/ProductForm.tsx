@@ -2,12 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate, useParams } from "react-router-dom"
+import { CategoryContext } from "../../contexts/CategoryContext"
 import { ProductContext } from "../../contexts/Product.Context"
 import { Product, ProductAction } from "../../interfaces/Product"
-
 import productSchema from "../../schemaValid/productSchema"
-import instance from "../../services/config"
-import { CreateProduct, UpdateProduct } from "../../services/product.config"
+import { CreateProduct, GetProductOne, UpdateProduct } from "../../services/product.config"
 import { UploadImage } from "../../services/upload.services"
 
 
@@ -15,7 +14,8 @@ const ProductForm = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState(null)
   // Archive user option
   const [thumbnailOption, setThumbnailOption] = useState("keep")
-  const context = useContext(ProductContext)
+  const contextProduct = useContext(ProductContext)
+  const contextCategory = useContext(CategoryContext)
   const navigate = useNavigate()
   const { id } = useParams()
   const { register, formState: { errors }, handleSubmit, reset } = useForm<Product>({ resolver: zodResolver(productSchema) })
@@ -23,8 +23,7 @@ const ProductForm = () => {
   useEffect(() => {
     if (id) {
       (async () => {
-        const { data } = await instance.get(`/products/${id}`)
-        console.log(data);
+        const data = await GetProductOne(id)
         reset(data)
         setThumbnailUrl(data?.thumbnail)
       })()
@@ -52,7 +51,7 @@ const ProductForm = () => {
 
       if (id) {
         await UpdateProduct(id, updateProduct)
-        context?.dispatch({
+        contextProduct?.dispatch({
           type: ProductAction.UPDATE_PRODUCTS, payload: { id, ...updateProduct }
         })
         if (confirm('Edit success, go to dashboard')) {
@@ -61,7 +60,7 @@ const ProductForm = () => {
       } else {
         const data = await CreateProduct(updateProduct)
         console.log(data);
-        context?.dispatch({
+        contextProduct?.dispatch({
           type: ProductAction.ADD_PRODUCTS, payload: data
         })
         if (confirm('Add success, go to dashboard')) {
@@ -94,6 +93,16 @@ const ProductForm = () => {
             <label className="form-label" htmlFor="Description">Description</label>
             <input className="form-control" type="text" placeholder="Description" {...register("description", { required: true, minLength: 5 })} />
             <div className="font-bold text-red-600">{errors.description && <p>{errors.description?.message}</p>}</div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="Category">Category</label>
+            <select {...register("category")} >
+              <option value="Default">Default</option>
+              {contextCategory?.state.categories.map((index) => (
+                <option key={index.id} value={index.id}>{index.name}</option>
+              ))}
+            </select>
+            <div className="font-bold text-red-600">{errors.category && <p>{errors.category?.message}</p>}</div>
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="thumbnailOption">Choose Thumbnail Option</label>

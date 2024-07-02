@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 
-import { ProductAction, ProductContextType, ProductProviderProps, State } from "../interfaces/Product";
+import { ProductAction, ProductContextType, ProductProviderProps, StateProduct } from "../interfaces/Product";
 import productReducer from "../reducers/productReducer";
 import { GetProductAll } from "../services/product.config";
 
@@ -8,7 +8,7 @@ import { GetProductAll } from "../services/product.config";
 
 
 export const ProductContext = createContext<ProductContextType | undefined>(undefined)
-const initialState: State = {
+const initialState: StateProduct = {
   products: [],
   error: null,
 };

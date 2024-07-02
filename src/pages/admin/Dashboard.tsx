@@ -23,8 +23,10 @@ const Dashboard = () => {
   }
   return (
     <section className="md:max-w-6xl mx-auto">
-      <div className="flex flex-row justify-between items-center ">
-        <Link to={"/admin/product-form"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add New</Link>
+      <div className="flex flex-row justify-start gap-10 items-center ">
+        <Link to={"/"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Home</Link>
+        <Link to={"/admin/product-form"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add Product</Link>
+        <Link to={"/admin/category-form"} className="py-3 px-5 my-2 bg-blue-600 rounded-lg inline-block text-white font-bold">Add Category</Link>
         <Button onClick={LogOut}>Log Out</Button>
 
       </div>
@@ -35,6 +37,7 @@ const Dashboard = () => {
             <th className="px-6 py-3">Name</th>
             <th className="px-6 py-3">Price</th>
             <th className="px-6 py-3">Images</th>
+            <th className="px-6 py-3">Category</th>
             <th className="px-6 py-3">Description</th>
             <th className="px-6 py-3">Action</th>
           </tr>
@@ -46,6 +49,7 @@ const Dashboard = () => {
               <td className="px-6 py-4">{index.title}</td>
               <td className="px-6 py-4">{index.price}</td>
               <td className="text-center">{index.thumbnail ? <img src={index.thumbnail} alt={index.description} /> : 'Updating'}</td>
+              <td className="px-6 py-4">{index.category}</td>
               <td className="px-6 py-4">{index.description}</td>
               <td>
                 <div className="flex flex-row gap-2">

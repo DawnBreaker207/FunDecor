@@ -12,6 +12,7 @@ import PrivateRouter from './components/PrivateRouter'
 import Search from './components/Search'
 import Dashboard from './pages/admin/Dashboard'
 import ProductForm from './pages/admin/ProductForm'
+import CategoryForm from './pages/admin/CategoryForm'
 
 
 const App = () => {
@@ -36,6 +37,8 @@ const App = () => {
             <Route index element={<Dashboard />} />
             <Route path='/admin/product-form' element={<ProductForm />} />
             <Route path='/admin/product-form/:id' element={<ProductForm />} />
+            <Route path='/admin/category-form' element={<CategoryForm />} />
+            <Route path='/admin/category-form/:id' element={<CategoryForm />} />
           </Route>
         </Route>
 

@@ -9,7 +9,7 @@ type CartItemProps = {
   quantity: number
 }
 const CartItem = ({ id, quantity }: CartItemProps) => {
-  const { removeFromCart } = UseCart()
+  const { removeFromCart, increaseCartQuantity, decreaseCartQuantity } = UseCart()
   const data = useContext(ProductContext)
   const item = data?.state.products.find(i => i.id === id)
   if (item == null) return null
@@ -17,6 +17,13 @@ const CartItem = ({ id, quantity }: CartItemProps) => {
     <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
       <img src={item.thumbnail} style={{ width: "125px", height: "75px", objectFit: "cover" }} alt="" />
       <div className="me-auto">
+        <div className="flex flex-row">
+          <Button onClick={() => decreaseCartQuantity(item.id as number)}>-</Button>
+          <div>
+            <span className="text-muted" style={{ fontSize: ".65rem" }}>{quantity}</span>
+          </div>
+          <Button onClick={() => increaseCartQuantity(item.id as number)}>+</Button>
+        </div>
         <div>
           {item.title} {quantity > 1 && <span className="text-muted" style={{ fontSize: ".65rem" }}>x{quantity}</span>}
         </div>
