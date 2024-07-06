@@ -16,13 +16,13 @@ const productReducer = (
       return {
         ...state,
         products: products.map((product) =>
-          product.id === payload.id ? payload : product
+          product._id === payload._id ? payload : product
         ),
       };
     case 'DELETE_PRODUCTS':
       return {
         ...state,
-        products: products.filter((product) => product.id !== payload),
+        products: products.filter((product) => product._id !== payload),
       };
 
     default:

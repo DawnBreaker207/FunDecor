@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { AuthContextType, AuthProviderProps, AuthType } from "../interfaces/Auth";
-import instance from "../services/config";
+import { Check_Authorization, Sign_In, Sign_Up } from "../services/authentication.config";
 
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -11,17 +11,13 @@ const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem("token")?.replace(/^"|"$/g, "")
+      // const token = localStorage.getItem("token")?.replace(/^"|"$/g, '')
+      const token = localStorage.getItem("token")
       // const token = JSON.parse(localStorage.getItem("token")?.accessToken)
       if (token) {
         try {
-          const { data } = await instance.get("/660/users/1", {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-
-          setUser(data)
+          const data = await Check_Authorization(token)
+          setUser(data.user)
           setIsAuthenticated(true)
         } catch (err) {
           console.error(err);
@@ -36,10 +32,9 @@ const AuthContextProvider = ({ children }: AuthProviderProps) => {
   }, [])
   const login = async (user: AuthType) => {
     try {
-      const { email, password } = user
-      const { data } = await instance.post("/login", { email, password })
+      const data = await Sign_In(user)
       localStorage.setItem("token", data.accessToken)
-      setUser(data.user);
+      setUser(data?.user);
       setIsAuthenticated(true)
 
     } catch (err) {
@@ -51,8 +46,7 @@ const AuthContextProvider = ({ children }: AuthProviderProps) => {
   }
   const register = async (user: AuthType) => {
     try {
-      const { email, password } = user
-      const { data } = await instance.post("/register", { email, password })
+      const data = await Sign_Up(user)
       localStorage.setItem("token", data.accessToken)
       setIsAuthenticated(true)
     } catch (err) {

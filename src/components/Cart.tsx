@@ -25,7 +25,7 @@ const Cart = ({ isOpen }: CartProps) => {
           {cartItems.map((item) => <CartItem key={item.id} {...item} />)}
           <div className='ms-auto fw-bold fs-5'>
             Total{" "} {formatCurrency(cartItems.reduce((total, cartItem) => {
-              const item = data?.state.products.find(i => i.id === cartItem.id)
+              const item = data?.state.products.find(i => i._id === cartItem.id)
               return total + (item?.price || 0) * cartItem.quantity
             }, 0))}
           </div>

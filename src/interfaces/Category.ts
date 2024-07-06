@@ -2,8 +2,8 @@ import { Dispatch } from 'react';
 import { Product } from './Product';
 
 export interface Category {
-  // _id?: string | number;
-  id?: string | number;
+  _id?: string | number;
+  // id?: string | number;
   name: string;
   slug?: string;
   description: string;

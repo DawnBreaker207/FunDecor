@@ -18,10 +18,13 @@ const ProductForm = () => {
   const contextCategory = useContext(CategoryContext)
   const navigate = useNavigate()
   const { id } = useParams()
+
+
   const { register, formState: { errors }, handleSubmit, reset } = useForm<Product>({ resolver: zodResolver(productSchema) })
 
   useEffect(() => {
     if (id) {
+
       (async () => {
         const data = await GetProductOne(id)
         reset(data)
@@ -50,16 +53,18 @@ const ProductForm = () => {
       }
 
       if (id) {
-        await UpdateProduct(id, updateProduct)
+        const _id = id
+        const data = await UpdateProduct(_id, updateProduct)
+        console.log(data);
+
         contextProduct?.dispatch({
-          type: ProductAction.UPDATE_PRODUCTS, payload: { id, ...updateProduct }
+          type: ProductAction.UPDATE_PRODUCTS, payload: { _id, ...updateProduct }
         })
         if (confirm('Edit success, go to dashboard')) {
           navigate("/admin")
         }
       } else {
         const data = await CreateProduct(updateProduct)
-        console.log(data);
         contextProduct?.dispatch({
           type: ProductAction.ADD_PRODUCTS, payload: data
         })
@@ -99,7 +104,7 @@ const ProductForm = () => {
             <select {...register("category")} >
               <option value="Default">Default</option>
               {contextCategory?.state.categories.map((index) => (
-                <option key={index.id} value={index.id}>{index.name}</option>
+                <option key={index._id} value={index._id}>{index.name}</option>
               ))}
             </select>
             <div className="font-bold text-red-600">{errors.category && <p>{errors.category?.message}</p>}</div>

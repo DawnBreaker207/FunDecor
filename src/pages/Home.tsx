@@ -12,7 +12,7 @@ const Home = () => {
     <section className='md:max-w-6xl mx-auto md: my-5'>
       <div className='grid grid-cols-3 gap-10'>
         {context?.state.products.map((index: Product) => (
-          <ProductItems key={index.id} data={index} />
+          <ProductItems key={index._id} data={index} />
         ))}
       </div>
     </section>

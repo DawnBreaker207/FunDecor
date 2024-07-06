@@ -2,18 +2,18 @@ import { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import Button from "../../components/Button/Button"
 import { ProductContext } from "../../contexts/Product.Context"
-import instance from "../../services/config"
 import { Product, ProductAction } from "../../interfaces/Product"
+import { DeleteProduct } from "../../services/product.config"
 
 
 
 const Dashboard = () => {
-  const data = useContext(ProductContext)
+  const context = useContext(ProductContext)
   const navigate = useNavigate()
-  const handleDelete = async (id: string | number) => {
-    await instance.delete(`/products/${id}`
-    )
-    data?.dispatch({ type: ProductAction.DELETE_PRODUCTS, payload: id })
+  const handleDelete = async (id: string) => {
+
+    await DeleteProduct(id)
+    context?.dispatch({ type: ProductAction.DELETE_PRODUCTS, payload: id })
   }
   const LogOut = () => {
     if (confirm('Are you sure want to logout ?')) {
@@ -43,19 +43,19 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.state.products.map((index: Product) => (
-            <tr key={index.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <td className="px-6 py-4">{index.id}</td>
+          {context?.state.products.map((index: Product) => (
+            <tr key={index._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <td className="px-6 py-4">{index._id}</td>
               <td className="px-6 py-4">{index.title}</td>
               <td className="px-6 py-4">{index.price}</td>
               <td className="text-center">{index.thumbnail ? <img src={index.thumbnail} alt={index.description} /> : 'Updating'}</td>
-              <td className="px-6 py-4">{index.category}</td>
+              <td className="px-6 py-4">{index.category?.name}</td>
               <td className="px-6 py-4">{index.description}</td>
               <td>
                 <div className="flex flex-row gap-2">
 
-                  <Link to={`/admin/product-form/${index.id}`} className="btn btn-warning">Edit</Link>
-                  <Button onClick={() => handleDelete(Number(index.id))} >Delete</Button>
+                  <Link to={`/admin/product-form/${index._id}`} className="btn btn-warning">Edit</Link>
+                  <Button onClick={() => handleDelete(index._id as string)} >Delete</Button>
                 </div>
               </td>
             </tr>

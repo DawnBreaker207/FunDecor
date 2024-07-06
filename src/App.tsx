@@ -19,8 +19,6 @@ const App = () => {
 
   return (
     <>
-
-
       <Routes>
         <Route path='/' element={<LayoutClient />}>
           <Route index element={<Home />} />

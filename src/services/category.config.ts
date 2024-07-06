@@ -3,8 +3,8 @@ import instance from './config';
 
 const GetCategoryAll = async () => {
   try {
-    const { data } = await instance.get('/category');
-    return data;
+    const { data } = await instance.get('/categories');
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -12,8 +12,8 @@ const GetCategoryAll = async () => {
 
 const GetCategoryOne = async (id: string | number | undefined) => {
   try {
-    const { data } = await instance.get(`/category/${id}`);
-    return data;
+    const { data } = await instance.get(`/categories/${id}`);
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -21,8 +21,9 @@ const GetCategoryOne = async (id: string | number | undefined) => {
 
 const CreateCategory = async (dataInput: Category) => {
   try {
-    const { data } = await instance.post('/category', dataInput);
-    return data;
+    const { data } = await instance.post('/categories', dataInput);
+
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -30,8 +31,8 @@ const CreateCategory = async (dataInput: Category) => {
 
 const UpdateCategory = async (id: string | number, dataInput: Category) => {
   try {
-    const { data } = await instance.put(`/category/${id}`, dataInput);
-    return data;
+    const { data } = await instance.put(`/categories/${id}`, dataInput);
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -39,7 +40,7 @@ const UpdateCategory = async (id: string | number, dataInput: Category) => {
 
 const DeleteCategory = async (id: string | number) => {
   try {
-    await instance.delete(`/category/${id}`);
+    await instance.delete(`/categories/${id}`);
   } catch (error) {
     console.log(error);
   }

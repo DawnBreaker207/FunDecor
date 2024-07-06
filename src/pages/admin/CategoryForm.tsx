@@ -11,32 +11,31 @@ import instance from "../../services/config"
 const CategoryForm = () => {
   const context = useContext(CategoryContext)
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { _id } = useParams()
   const { register, formState: { errors }, handleSubmit, reset } = useForm<Category>({ resolver: zodResolver(categorySchema) })
 
   useEffect(() => {
-    if (id) {
+    if (_id) {
       (async () => {
-        const { data } = await instance.get(`/products/${id}`)
+        const { data } = await instance.get(`/products/${_id}`)
         console.log(data);
         reset(data)
 
       })()
     }
-  }, [id, reset])
+  }, [_id, reset])
   const handleSubmitForm = async (res: Category) => {
     try {
-      if (id) {
-        await UpdateCategory(id, res)
+      if (_id) {
+        await UpdateCategory(_id, res)
         context?.dispatch({
-          type: CategoryAction.UPDATE_CATEGORIES, payload: { id, ...res }
+          type: CategoryAction.UPDATE_CATEGORIES, payload: { _id, ...res }
         })
         if (confirm('Edit success, go to dashboard')) {
           navigate("/admin")
         }
       } else {
         const data = await CreateCategory(res)
-        console.log(data);
         context?.dispatch({
           type: CategoryAction.ADD_CATEGORIES, payload: data
         })
@@ -54,12 +53,17 @@ const CategoryForm = () => {
   return (
     <section className="md:max-w-6xl mx-auto">
       <div className="my-5">
-        <h1 className="my-5 text-3xl font-bold text-center">{id ? 'Product Edit' : "Product Add"}</h1>
+        <h1 className="my-5 text-3xl font-bold text-center">{_id ? 'Category Edit' : "Category Add"}</h1>
         <form action="" onSubmit={handleSubmit(handleSubmitForm)} className="md:max-w-2xl md:mx-auto">
           <div className="mb-3">
-            <label className="form-label" htmlFor="Title">Title</label>
-            <input className="form-control" type="text" placeholder="Title" {...register("name", { required: true, minLength: 5 })} />
+            <label className="form-label" htmlFor="Name">Name</label>
+            <input className="form-control" type="text" placeholder="Name" {...register("name", { required: true, minLength: 5 })} />
             <div className="font-bold text-red-600">{errors.name && <p>{errors.name?.message}</p>}</div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="Slug">Slug</label>
+            <input className="form-control" type="text" placeholder="Slug" {...register("slug", { required: true, minLength: 5 })} />
+            <div className="font-bold text-red-600">{errors.slug && <p>{errors.slug?.message}</p>}</div>
           </div>
           <div className="mb-3">
             <label className="form-label" htmlFor="Description">Description</label>

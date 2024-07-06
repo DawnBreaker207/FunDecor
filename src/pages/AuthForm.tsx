@@ -20,6 +20,7 @@ const AuthForm = ({ isRegister }: Props) => {
     (async () => {
       try {
         if (isRegister) {
+
           await auth?.register(res)
           if (confirm(`Sign Up success, to to log in ?`)) {
             navigate('/login')
@@ -27,7 +28,6 @@ const AuthForm = ({ isRegister }: Props) => {
 
         } else {
           await auth?.login(res)
-          // const data = await Sign_In(res)
           if (confirm(`Log in success, to to dashboard ?`)) {
             navigate('/admin')
           }

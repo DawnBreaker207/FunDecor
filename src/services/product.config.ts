@@ -4,7 +4,7 @@ import instance from './config';
 const GetProductAll = async () => {
   try {
     const { data } = await instance.get('/products');
-    return data;
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +13,7 @@ const GetProductAll = async () => {
 const GetProductOne = async (id: string | number | undefined) => {
   try {
     const { data } = await instance.get(`/products/${id}`);
-    return data;
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +22,7 @@ const GetProductOne = async (id: string | number | undefined) => {
 const CreateProduct = async (dataInput: Product) => {
   try {
     const { data } = await instance.post('/products', dataInput);
-    return data;
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -30,8 +30,8 @@ const CreateProduct = async (dataInput: Product) => {
 
 const UpdateProduct = async (id: string | number, dataInput: Product) => {
   try {
-    const { data } = await instance.put(`/products/${id}`, dataInput);
-    return data;
+    const { data } = await instance.put(`/products/update/${id}`, dataInput);
+    return data.res;
   } catch (error) {
     console.log(error);
   }
@@ -39,7 +39,7 @@ const UpdateProduct = async (id: string | number, dataInput: Product) => {
 
 const DeleteProduct = async (id: string | number) => {
   try {
-    await instance.delete(`/products/${id}`);
+    await instance.delete(`/products/delete/${id}`);
   } catch (error) {
     console.log(error);
   }

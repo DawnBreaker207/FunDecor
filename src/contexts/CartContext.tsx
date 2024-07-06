@@ -11,10 +11,10 @@ type CartItem = {
 type cartContextType = {
   openCart: () => void
   closeCart: () => void
-  getItemQuantity: (id: number) => number,
-  increaseCartQuantity: (id: number) => void,
-  decreaseCartQuantity: (id: number) => void,
-  removeFromCart: (id: number) => void,
+  getItemQuantity: (id: string) => number,
+  increaseCartQuantity: (id: string) => void,
+  decreaseCartQuantity: (id: string) => void,
+  removeFromCart: (id: string) => void,
   cartQuantity: number
   cartItems: CartItem[]
 
@@ -36,10 +36,10 @@ const CartContextProvider = ({ children }: useCartProviderProps) => {
 
   const openCart = () => setIsOpen(true)
   const closeCart = () => setIsOpen(false)
-  const getItemQuantity = (id: number) => {
+  const getItemQuantity = (id: string) => {
     return cartItems.find(item => item.id === id)?.quantity || 0
   }
-  const increaseCartQuantity = (id: number) => {
+  const increaseCartQuantity = (id: string) => {
     setCartItems(currItems => {
       if (currItems.find(item => item.id === id) == null) {
         return [...currItems, { id, quantity: 1 }]
@@ -54,7 +54,7 @@ const CartContextProvider = ({ children }: useCartProviderProps) => {
       }
     })
   }
-  const decreaseCartQuantity = (id: number) => {
+  const decreaseCartQuantity = (id: string) => {
     setCartItems(currItems => {
       if (currItems.find(item => item.id === id)?.quantity === 1) {
         return currItems.filter(item => item.id !== id)
@@ -69,7 +69,7 @@ const CartContextProvider = ({ children }: useCartProviderProps) => {
       }
     })
   }
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: string) => {
     setCartItems(currItems => {
       return currItems.filter(item => item.id !== id)
     })

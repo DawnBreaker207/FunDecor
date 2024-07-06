@@ -16,13 +16,13 @@ const categoryReducer = (
       return {
         ...state,
         categories: categories.map((category) =>
-          category.id === payload.id ? payload : category
+          category._id === payload._id ? payload : category
         ),
       };
     case 'DELETE_CATEGORIES':
       return {
         ...state,
-        categories: categories.filter((category) => category.id !== payload),
+        categories: categories.filter((category) => category._id !== payload),
       };
 
     default:

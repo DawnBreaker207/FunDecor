@@ -34,7 +34,7 @@ const Category = () => {
       </div>
       <div className='grid grid-cols-3 gap-10'>
         {results.map((index) => (
-          <ProductItems key={index.id} data={index} />
+          <ProductItems key={index._id} data={index} />
         ))}
       </div>
     </section>

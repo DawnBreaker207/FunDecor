@@ -8,11 +8,11 @@ type Props = {
 }
 const ProductItems: React.FC<Props> = ({ data }) => {
   const { getItemQuantity, increaseCartQuantity } = UseCart()
-  const quantity = getItemQuantity(data.id as number)
+  const quantity = getItemQuantity(data._id as string)
   return (
-    <div key={data.id} className='border rounded-lg'>
+    <div key={data._id} className='border rounded-lg'>
       <div className='object-fill'>
-        <Link to={`/details/${data.id}`}>
+        <Link to={`/details/${data._id}`}>
           <img src={data.thumbnail} alt={data.description} className='size-full' />
         </Link>
       </div>
@@ -20,12 +20,12 @@ const ProductItems: React.FC<Props> = ({ data }) => {
         <h1 className='font-bold text-xl'>{data.title}</h1>
         <span className='font-semibold'>{formatCurrency(data.price)}</span>
         <p>Stock: {data.stock}</p>
-        <p>Category: {data.category}</p>
+        {/* <p>Category: {data.category}</p> */}
         <p className='text-sm'>{data.description}</p>
         {/* <button className='btn btn-primary mt-5'>Buy Now</button> */}
         <div className='mt-auto'>
           {quantity === 0 ? (
-            <Button onClick={() => increaseCartQuantity(data?.id as number)}>+ Add to cart</Button>
+            <Button onClick={() => increaseCartQuantity(data?._id as string)}>+ Add to cart</Button>
 
           ) : (<>
             <Button> Buy Now</Button>

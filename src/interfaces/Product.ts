@@ -1,4 +1,5 @@
 import { Dispatch } from 'react';
+import { Category } from './Category';
 
 // export interface Product {
 //   id?: number | string ;
@@ -25,10 +26,10 @@ import { Dispatch } from 'react';
 // }
 
 export interface Product {
-  // _id?: string | number;
-  id?: string | number;
+  _id?: string | undefined;
+  // id?: string | number;
   title: string;
-  category: string | number;
+  category: Category;
   slug?: string;
   brand?: string;
   thumbnail: string;
