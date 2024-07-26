@@ -2,14 +2,14 @@ import { Dispatch } from 'react';
 import { Product } from './Product';
 
 export interface Category {
-  _id?: string | number;
+  _id?: string | undefined;
   // id?: string | number;
   name: string;
   slug?: string;
   description: string;
-  products: Product[];
+  products?: Product[];
 }
-
+export type CategoryId = Pick<Category, '_id'>;
 export interface StateCategory {
   categories: Category[];
   error: string | null;
@@ -47,6 +47,9 @@ export type Category_Action =
 export interface CategoryContextType {
   state: StateCategory;
   dispatch: Dispatch<Category_Action>;
+  Add_Category: (input: Category) => void;
+  Edit_Category: (id: string, input: Category) => void;
+  Delete_Category: (id: string) => void;
 }
 export interface CategoryProviderProps {
   children: React.ReactNode;

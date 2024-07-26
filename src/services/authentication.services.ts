@@ -1,5 +1,5 @@
-import { AuthType } from '../interfaces/Auth';
-import instance from './config';
+import { AuthType } from '../common/types/Auth';
+import instance from '../configs/axios';
 
 const Sign_Up = async (dataInput: AuthType) => {
   try {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 export interface AuthType {
+  _id?: string | undefined;
   username?: string;
   email: string | undefined;
   password: string | undefined;
@@ -10,10 +11,10 @@ export interface AuthType {
 
 export interface AuthContextType {
   isAuthenticated: boolean;
-  user: AuthType | null;
-  login: (user: AuthType) => Promise<void>;
-  register: (user: AuthType) => Promise<void>;
-  logout: () => void;
+  user: AuthType | null | undefined;
+  Login: (user: AuthType) => Promise<void>;
+  Register: (user: AuthType) => Promise<void>;
+  Logout: () => void;
 }
 
 export interface AuthProviderProps {

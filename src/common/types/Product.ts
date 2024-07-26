@@ -45,6 +45,7 @@ export interface Product {
 export interface StateProduct {
   products: Product[];
   error: string | null;
+  isLoading: boolean;
 }
 export enum ProductAction {
   SET_PRODUCTS = 'SET_PRODUCTS',
@@ -77,6 +78,9 @@ export type Product_Action =
 export interface ProductContextType {
   state: StateProduct;
   dispatch: Dispatch<Product_Action>;
+  Add_Product: (input: Product) => void;
+  Edit_Product: (id: string, input: Product) => void;
+  Delete_Product: (id: string) => void;
 }
 export interface ProductProviderProps {
   children: React.ReactNode;

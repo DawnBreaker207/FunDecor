@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useContext } from "react"
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
-import { AuthContext } from "../contexts/AuthContext"
-import { SignInSchema, SignUpSchema } from "../schemaValid/authSchema."
-import { AuthType } from "../interfaces/Auth"
+import { Link } from "react-router-dom"
+import { useAuth } from "../../contexts/AuthContext"
+
+
+import { AuthType } from "../../common/types/Auth"
+import { SignInSchema, SignUpSchema } from "../../validations/authSchema."
 
 
 
@@ -13,26 +14,17 @@ type Props = {
 }
 
 const AuthForm = ({ isRegister }: Props) => {
-  const navigate = useNavigate()
-  const auth = useContext(AuthContext)
+
+  const { Login, Register } = useAuth()
   const { register, formState: { errors }, handleSubmit } = useForm<AuthType>({ resolver: zodResolver(isRegister ? SignUpSchema : SignInSchema) })
   const onSubmit = (res: AuthType) => {
     (async () => {
       try {
         if (isRegister) {
-
-          await auth?.register(res)
-          if (confirm(`Sign Up success, to to log in ?`)) {
-            navigate('/login')
-          }
-
+          await Register(res)
         } else {
-          await auth?.login(res)
-          if (confirm(`Log in success, to to dashboard ?`)) {
-            navigate('/admin')
-          }
+          await Login(res)
         }
-
       } catch (error) {
         alert(error || 'Failed')
         console.log(error);

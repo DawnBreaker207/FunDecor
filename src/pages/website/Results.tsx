@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { SearchProduct } from "../services/query.services"
+import { SearchProduct } from "../../services/query.services"
 
 const Search = () => {
   const [query, setQuery] = useState('')

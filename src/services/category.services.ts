@@ -1,5 +1,5 @@
-import { Category } from '../interfaces/Category';
-import instance from './config';
+import { Category } from '../common/types/Category';
+import instance from '../configs/axios';
 
 const GetCategoryAll = async () => {
   try {

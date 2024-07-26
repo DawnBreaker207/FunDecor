@@ -1,18 +1,16 @@
 import { useState } from "react"
-import { Product } from "../interfaces/Product"
-import { SortCategory } from "../services/query.services"
-import ProductItems from "./ProductItems/ProductItems"
+
 
 
 const Category = () => {
   const [query, setQuery] = useState('')
-  const [results, setResult] = useState<Product[]>([])
+  // const [results, setResult] = useState<Product[]>([])
 
   const handleSearch = async (value: React.FormEvent) => {
     value.preventDefault()
-    console.log(query);
-    const data = await SortCategory(query)
-    setResult(data)
+    // console.log(query);
+    // const data = await SortCategory(query)
+    // setResult(data)
   }
 
   return (
@@ -33,9 +31,9 @@ const Category = () => {
         </form>
       </div>
       <div className='grid grid-cols-3 gap-10'>
-        {results.map((index) => (
-          <ProductItems key={index._id} data={index} />
-        ))}
+        {/* {results.map((index) => (
+          // <ProductItems key={index._id} data={index} />
+        ))} */}
       </div>
     </section>
   )

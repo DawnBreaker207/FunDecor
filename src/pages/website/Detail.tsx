@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Product } from '../interfaces/Product'
-import { GetProductOne } from '../services/product.config'
+
+import { GetProductOne } from '../../services/product.services'
+import { Product } from '../../common/types/Product'
 
 
 export const Detail = () => {

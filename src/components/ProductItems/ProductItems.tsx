@@ -1,18 +1,26 @@
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { UseCart } from '../../contexts/CartContext';
-import { Product } from '../../interfaces/Product';
+import { Product } from '../../common/types/Product';
 import { formatCurrency } from '../../utils/formatCurrency';
-import Button from '../Button/Button';
+import { useCart } from '../../contexts/CartContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { Button } from 'antd';
 type Props = {
-  data: Product
+  data: Product,
+
 }
-const ProductItems: React.FC<Props> = ({ data }) => {
-  const { getItemQuantity, increaseCartQuantity } = UseCart()
-  const quantity = getItemQuantity(data._id as string)
+const ProductItems = ({ data }: Props): ReactElement => {
+  const { addToCart } = useCart()
+  const { user } = useAuth()
+  const handleAddToCart = async () => {
+    if (user?._id) {
+      await addToCart({ userId: user._id, useProduct: data._id as string, quantity: 1, price: data.price })
+    }
+  }
   return (
-    <div key={data._id} className='border rounded-lg'>
+    <div key={data?._id} className='border rounded-lg'>
       <div className='object-fill'>
-        <Link to={`/details/${data._id}`}>
+        <Link to={`/details/${data?._id}`}>
           <img src={data.thumbnail} alt={data.description} className='size-full' />
         </Link>
       </div>
@@ -23,21 +31,7 @@ const ProductItems: React.FC<Props> = ({ data }) => {
         {/* <p>Category: {data.category}</p> */}
         <p className='text-sm'>{data.description}</p>
         {/* <button className='btn btn-primary mt-5'>Buy Now</button> */}
-        <div className='mt-auto'>
-          {quantity === 0 ? (
-            <Button onClick={() => increaseCartQuantity(data?._id as string)}>+ Add to cart</Button>
-
-          ) : (<>
-            <Button> Buy Now</Button>
-            <div>
-              <span className='fs-3'>
-                {quantity}
-              </span>
-              in cart
-            </div>
-          </>)}
-        </div>
-
+        <Button type='primary' onClick={handleAddToCart} >Add to cart</Button>
 
       </div>
     </div>

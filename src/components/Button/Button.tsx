@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import style from './Button.module.scss'
+import './Button.module.scss'
 type Props = {
   onClick?: () => void
   children: ReactNode
@@ -8,7 +8,7 @@ type Props = {
 const Button: React.FC<Props> = ({ children, width = 'auto', onClick }) => {
   return (
     <button
-      className={style.btnCustom}
+      className='btnCustom'
 
       style={{ width: `${width}` }} onClick={onClick}>{children}</button>
   )

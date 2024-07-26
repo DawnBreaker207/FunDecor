@@ -1,4 +1,4 @@
-import { Category_Action, StateCategory } from '../interfaces/Category';
+import { Category_Action, StateCategory } from '../common/types/Category';
 
 const categoryReducer = (
   state: StateCategory,

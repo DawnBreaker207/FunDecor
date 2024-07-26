@@ -1,5 +1,5 @@
-import { Product } from '../interfaces/Product';
-import instance from './config';
+import { Product } from '../common/types/Product';
+import instance from '../configs/axios';
 
 const GetProductAll = async () => {
   try {

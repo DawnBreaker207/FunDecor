@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { Product } from "../interfaces/Product"
+
 import { SortPrice } from "../services/query.services"
 import ProductItems from "./ProductItems/ProductItems"
+import { Product } from "../common/types/Product"
 
 
 const Price = () => {

@@ -1,16 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useContext, useEffect } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useNavigate, useParams } from "react-router-dom"
-import { CategoryContext } from "../../contexts/CategoryContext"
-import { Category, CategoryAction } from "../../interfaces/Category"
-import categorySchema from "../../schemaValid/categorySchema"
-import { CreateCategory, UpdateCategory } from "../../services/category.config"
-import instance from "../../services/config"
+import { useParams } from "react-router-dom"
+import instance from "../../../configs/axios"
+import { Category } from "../../../common/types/Category"
+import categorySchema from "../../../validations/categorySchema"
+import { useCategory } from "../../../contexts/CategoryContext"
+
 
 const CategoryForm = () => {
-  const context = useContext(CategoryContext)
-  const navigate = useNavigate()
+  const { Add_Category, Edit_Category } = useCategory()
   const { _id } = useParams()
   const { register, formState: { errors }, handleSubmit, reset } = useForm<Category>({ resolver: zodResolver(categorySchema) })
 
@@ -27,21 +26,9 @@ const CategoryForm = () => {
   const handleSubmitForm = async (res: Category) => {
     try {
       if (_id) {
-        await UpdateCategory(_id, res)
-        context?.dispatch({
-          type: CategoryAction.UPDATE_CATEGORIES, payload: { _id, ...res }
-        })
-        if (confirm('Edit success, go to dashboard')) {
-          navigate("/admin")
-        }
+        Edit_Category(_id, res)
       } else {
-        const data = await CreateCategory(res)
-        context?.dispatch({
-          type: CategoryAction.ADD_CATEGORIES, payload: data
-        })
-        if (confirm('Add success, go to dashboard')) {
-          navigate("/admin")
-        }
+        Add_Category(res)
       }
     } catch (error) {
       console.log(error);

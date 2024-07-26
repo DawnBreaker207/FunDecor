@@ -1,4 +1,9 @@
-import { Product_Action, StateProduct } from '../interfaces/Product';
+import { Product_Action, StateProduct } from '../common/types/Product';
+export const initialState: StateProduct = {
+  products: [],
+  error: null,
+  isLoading: true,
+};
 
 const productReducer = (
   state: StateProduct,
@@ -9,7 +14,7 @@ const productReducer = (
 
   switch (type) {
     case 'SET_PRODUCTS':
-      return { ...state, products: payload };
+      return { ...state, products: payload, isLoading: false };
     case 'ADD_PRODUCTS':
       return { ...state, products: [...products, payload] };
     case 'UPDATE_PRODUCTS':
@@ -29,4 +34,5 @@ const productReducer = (
       return state;
   }
 };
+
 export default productReducer;
